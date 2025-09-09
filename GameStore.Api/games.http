@@ -1,1 +1,17 @@
- GET http://localhost:5108
+ GET http://localhost:5108/games
+
+###
+ GET http://localhost:5108/games/6
+
+
+###
+
+POST http://localhost:5108/games
+Content-Type: application/json
+
+{
+    "name": "New Game",
+    "genre": "Adventure",
+    "price": 49.99,
+    "releaseDate": "2024-10-01"
+}
