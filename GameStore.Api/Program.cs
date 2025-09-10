@@ -34,7 +34,7 @@ app.MapPost("games", (CreateGameDto newGame) =>
 });
 
 //PUT /games/{id}
-app.MapPut("games/{id}", (int id,UpdateGameDto updateGame)=>
+app.MapPut("games/{id}", (int id, UpdateGameDto updateGame) =>
 {
     var index = games.FindIndex(game => game.Id == id);
 
@@ -45,7 +45,14 @@ app.MapPut("games/{id}", (int id,UpdateGameDto updateGame)=>
         updateGame.Price,
         updateGame.ReleaseDate
     );
-    
+
+    return Results.NoContent();
+});
+
+//DELETE /games/{id}
+app.MapDelete("games/{id}", (int id) =>
+{
+    games.RemoveAll(game => game.Id == id);
     return Results.NoContent();
 });
 
