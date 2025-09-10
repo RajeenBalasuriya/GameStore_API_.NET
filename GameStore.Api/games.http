@@ -1,7 +1,7 @@
  GET http://localhost:5108/games
 
 ###
- GET http://localhost:5108/games/6
+ GET http://localhost:5108/games/1
 
 
 ###
@@ -15,3 +15,14 @@ Content-Type: application/json
     "price": 49.99,
     "releaseDate": "2024-10-01"
 }
+
+###
+    PUT http://localhost:5108/games/1
+    Content-Type: application/json
+
+    {
+        "name": "Updated Game",
+        "genre": "UpdatedAction",
+        "price": 159.99,
+        "releaseDate": "2024-11-01"
+    }

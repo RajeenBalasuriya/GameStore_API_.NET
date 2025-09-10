@@ -18,7 +18,7 @@ app.MapGet("games",()=> games);
 app.MapGet("games/{id}", (int id) => games.Find(game => game.Id == id)).WithName(GetGameEndpointName);
 
 //POST /games
-app.MapPost("games",(CreateGameDto newGame)=>
+app.MapPost("games", (CreateGameDto newGame) =>
 {
     GameDto game = new(
         games.Count + 1,
@@ -30,7 +30,23 @@ app.MapPost("games",(CreateGameDto newGame)=>
 
     games.Add(game);
 
-    return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id },game);
+    return Results.CreatedAtRoute(GetGameEndpointName, new { id = game.Id }, game);
+});
+
+//PUT /games/{id}
+app.MapPut("games/{id}", (int id,UpdateGameDto updateGame)=>
+{
+    var index = games.FindIndex(game => game.Id == id);
+
+    games[index] = new GameDto(
+        id,
+        updateGame.Name,
+        updateGame.Genre,
+        updateGame.Price,
+        updateGame.ReleaseDate
+    );
+    
+    return Results.NoContent();
 });
 
 app.Run();
