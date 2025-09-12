@@ -9,4 +9,6 @@ public class GameStoreContext(DbContextOptions<GameStoreContext> options) : DbCo
 
     public DbSet<Genre> Genres => Set<Genre>();
 
+    
+
 }
