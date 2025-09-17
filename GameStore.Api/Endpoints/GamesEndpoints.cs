@@ -9,11 +9,11 @@ public static class GamesEndpoints
 {
     const string GetGameEndpointName = "GetGame";
 
-    private static readonly List<GameDto> games = [ new GameDto(1, "The Legend of Zelda: Breath of the Wild", "Action-adventure", 59.99m, new DateOnly(2017, 3, 3)),
-    new GameDto(2, "God of War", "Action-adventure", 49.99m, new DateOnly(2018, 4, 20)),
-    new GameDto(3, "Red Dead Redemption 2", "Action-adventure", 39.99m, new DateOnly(2018, 10, 26)),
-    new GameDto(4, "The Witcher 3: Wild Hunt", "Action RPG", 29.99m, new DateOnly(2015, 5, 19)),
-    new GameDto(5, "Minecraft", "Sandbox", 26.95m, new DateOnly(2011, 11, 18))];
+    private static readonly List<GameSummaryDto> games = [ new GameSummaryDto(1, "The Legend of Zelda: Breath of the Wild", "Action-adventure", 59.99m, new DateOnly(2017, 3, 3)),
+    new GameSummaryDto(2, "God of War", "Action-adventure", 49.99m, new DateOnly(2018, 4, 20)),
+    new GameSummaryDto(3, "Red Dead Redemption 2", "Action-adventure", 39.99m, new DateOnly(2018, 10, 26)),
+    new GameSummaryDto(4, "The Witcher 3: Wild Hunt", "Action RPG", 29.99m, new DateOnly(2015, 5, 19)),
+    new GameSummaryDto(5, "Minecraft", "Sandbox", 26.95m, new DateOnly(2011, 11, 18))];
 
 
     public static RouteGroupBuilder MapGamesEndpoints(this WebApplication app)
@@ -24,9 +24,9 @@ public static class GamesEndpoints
         group.MapGet("/", () => games);
 
         //GET /games/{id}
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", (int id,GameStoreContext dbContext) =>
         {
-            GameDto? game = games.Find(game => game.Id == id);
+            Game? game = dbContext.Games.Find(id);
             return game is null ? Results.NotFound() : Results.Ok(game);
 
         }).WithName(GetGameEndpointName);
@@ -58,7 +58,7 @@ public static class GamesEndpoints
                 return Results.NotFound();
             }
 
-            games[index] = new GameDto(
+            games[index] = new GameSummaryDto(
                 id,
                 updateGame.Name,
                 updateGame.Genre,
